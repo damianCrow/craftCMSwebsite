@@ -523,9 +523,6 @@ html, body, #scrollerWrapper {
     #gfyCatEmbed {
       display: none; } }
 
-.greenText {
-  color: #83c000; }
-
 .page {
   will-change: transform, top, left, height, width;
   transform: translateZ(0);
@@ -897,6 +894,10 @@ html, body, #scrollerWrapper {
         margin: 0 0 0 60px;
         width: calc(50% - 120px);
         font-size: 0.8rem; } }
+    #footer p.tweet a {
+      color: #83c000;
+      text-decoration: none;
+      cursor: pointer; }
   #footer .mediaWrapper {
     display: -ms-flexbox;
     display: flex;

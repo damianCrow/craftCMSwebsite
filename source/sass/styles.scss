@@ -609,10 +609,6 @@ html, body, #scrollerWrapper {
   }
 }
 
-.greenText {
-  color: $green;
-}
-
 .page {
   will-change: transform, top, left, height, width;
   transform: translateZ(0);
@@ -1071,6 +1067,14 @@ html, body, #scrollerWrapper {
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+
+    &.tweet {
+      a {
+        color: $green;
+        text-decoration: none;
+        cursor: pointer;
+      }
+    }
   }
   .mediaWrapper {
     @include breakpoint(mobile) {

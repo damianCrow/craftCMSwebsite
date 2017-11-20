@@ -1,4 +1,7 @@
 {% extends "_layout" %}
+	
+	{% set tweets = craft.twitter.get('https://api.twitter.com/1.1/statuses/user_timeline.json?exclude_replies=true?screen_name=FantastecSport') %}
+
 	{% block content %}
 		<div id="loading"></div>
 		<div id="menuBlockOut" class="hidden"></div>
@@ -40,13 +43,15 @@
 	  </div>
 
 	  <div id="footer">
-	  	<p> 
-	  		
-	  	</p>
+
+	  	{% if tweets %}
+	  		<p class="tweet">{{tweets[0]|tweetLink|raw}}</p>	
+			{% endif %}
+	  	
 	  	<div class="mediaWrapper">
-	  		<a class="twitter" href="https://twitter.com/FantastecSport"></a>
-	  		<a class="instagram" href="https://www.instagram.com/fantastecsport"></a>
-	  		<a class="linkedIn" href="https://www.linkedin.com/company/fantastecsport"></a>
+	  		<a target="_blank" class="twitter" href="https://twitter.com/FantastecSport"></a>
+	  		<a target="_blank" class="instagram" href="https://www.instagram.com/fantastecsport"></a>
+	  		<a target="_blank" class="linkedIn" href="https://www.linkedin.com/company/fantastecsport"></a>
 	  	</div>
 	  </div>
 	  <div id="downArrow" class="arrow"></div>

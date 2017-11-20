@@ -7,4 +7,5 @@ tmp
 .DS_Store
 craft/*
 !craft/templates
+!craft/plugins
 yarn.lock

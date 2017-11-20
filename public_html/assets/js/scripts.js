@@ -136,7 +136,7 @@ $(document).ready(() => {
 
 // INITIALIZE ONEPAGESCROLL IF NOT IN CMS PREVIEW. \\
 
-	if(!$(location).attr('href').includes('admin')) {
+	if(!$(location).attr('href').includes('index.php')) {
 		$('#scrollerWrapper').onepage_scroll({
 			sectionContainer: "section",    
 			easing: "ease-out",                 
@@ -207,7 +207,7 @@ $(document).ready(() => {
 
 // IF NOT IN CMS ADMIN PREVIEW, PERPETUALLY CHECK IF WE ARE AT THE TOP OF THE PAGE AND IF SO, DONT SHOW THE FOOTER OR GREEN SHAPE. \\
 
-	if(!$(location).attr('href').includes('admin')) {
+	if(!$(location).attr('href').includes('index.php')) {
 		setInterval(() => {
 			if($('#scrollerWrapper').offset().top >= 0) {
 				$('#headerShape, #footer').addClass('moveOffScreen');
@@ -283,7 +283,7 @@ $(document).ready(() => {
   
 // ONLY LISTEN FOR MENU CLICKS WHEN NOT IN CMS PREVIEW MODE \\
 
-  if(!$(location).attr('href').includes('admin')) {
+  if(!$(location).attr('href').includes('index.php')) {
   	burger.addEventListener('click', navControl);
   }
 
@@ -299,7 +299,7 @@ $(document).ready(() => {
 
 // THIS SET OF IF STATEMENTS INITIALISES THE SPESIFIC PAGES FOR PREVIEWING IN CMS ADMIN. \\
 
-  if($(location).attr('href').includes('admin')) {
+  if($(location).attr('href').includes('index.php')) {
 		if($(location).attr('href').includes('imagine-if')) {
 			pageLoader(4);
 		}
@@ -419,7 +419,7 @@ $(document).ready(() => {
 
 // INITIATE FOR SWIPE DETECTION ON SECTIONS 3 AND 4 EXCEPT IN ADMIN PREVIEW. \\
 
-	if(!$(location).attr('href').includes('admin')) {
+	if(!$(location).attr('href').includes('index.php')) {
 		detectswipe('section4', swipeController);
 		detectswipe('section3', swipeController);
 	}
