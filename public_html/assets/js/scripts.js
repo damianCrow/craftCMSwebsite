@@ -377,7 +377,7 @@ $(document).ready(() => {
 					section4Idx = 0;
 				}
 				
-				$('.section4PaginatorButton')[section4PaginationLength - (section4Idx + 1)].click();
+				$('.section4PaginatorButton')[section4Idx].click();
 			}
 			if(d === 'r') {
 
@@ -387,7 +387,7 @@ $(document).ready(() => {
 					section4Idx = section4PaginationLength - 1;
 				}
 
-				$('.section4PaginatorButton')[section4PaginationLength - (section4Idx + 1)].click();
+				$('.section4PaginatorButton')[section4Idx].click();
 			}
 		}
 		if(el === 'section3') {
@@ -402,7 +402,7 @@ $(document).ready(() => {
 					section3Idx = 0;
 				}
 				
-				$('.section3PaginatorButton')[section3PaginationLength - (section3Idx + 1)].click();
+				$('.section3PaginatorButton')[section3Idx].click();
 			}
 			if(d === 'r') {
 
@@ -412,7 +412,7 @@ $(document).ready(() => {
 					section3Idx = section3PaginationLength - 1;
 				}
 				
-				$('.section3PaginatorButton')[section3PaginationLength - (section3Idx + 1)].click();
+				$('.section3PaginatorButton')[section3Idx].click();
 			}
 		}
 	}
