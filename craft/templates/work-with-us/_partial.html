@@ -1,0 +1,20 @@
+{% block content %}
+	<section data-index="5" id="section5" class="page">
+	  <h2 class="heading standAlone">{{craft.entries.section('workWithUs').find()[0].title}}</h2>
+
+	  {% for entry in craft.entries.section('workWithUs').find() %}
+			{% for block in entry.wwudatamatrix %}
+				<div class="subSection clickable {% if loop.index == 1 %} first {% endif %}" id="subSection{{loop.index}}">
+		    	<div class="tint"></div>
+		    	<div id="subSection{{loop.index}}Background" class="backgroundWrapper" style="will-change: transform, opacity; background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('{{block.backgroundImage.first().url}}');
+	  			background-position: center;"></div>
+		    	<div class="textWrapper center">
+		    		<h2 class="heading">{{ block.subHeading }}</h2>
+		  			<p>{{block.paragraph}}</p>
+		  			<a class="button" href="mailto:hello@fantastec.io">{{block.buttonText}}</a>
+		  		</div>
+		  	</div>
+			{% endfor %}
+		{% endfor %}
+	</section>
+{% endblock %}

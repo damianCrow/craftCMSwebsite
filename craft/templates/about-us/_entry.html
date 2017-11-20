@@ -1,0 +1,44 @@
+{% extends "_layout" %}
+
+{% block content %}
+
+	<div>
+		<button id="main-burger" class="burger">
+			<span class="burger__piece"></span>
+			<span class="burger__piece"></span>
+			<span class="burger__piece"></span>
+		</button>
+	</div>
+
+	<div id="headerShape"></div>
+
+	<section data-index="2" id="section2" class="page stand-alone">
+		<div class="tint"></div>
+
+		{% for entry in craft.entries.section('aboutUs').find() %}
+			{% for image in entry.images %}
+				<div id="section2Background{{ loop.index - 1 }}" class="backgroundWrapper" style="background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('{{image.url}}');
+	  			background-position: center;"></div>
+	  	{% endfor %}
+	  	<div class="textWrapper">
+		  	<h2 class="heading">{{craft.entries.section('aboutUS').find()[0].title}}</h2>
+		  	
+				<p class="largeText">{{ entry.paragraphs|split('</p>')|first()|striptags()}}</p>
+
+				{% for paragraph in entry.paragraphs|split('</p>')|slice(1) %}
+					{{paragraph|raw}}
+				{% endfor %}
+			</div>
+		{% endfor %}
+	</section>
+	
+	<div id="footer">
+  	<div class="mediaWrapper">
+  		<a class="twitter" href="https://twitter.com/FantastecSport"></a>
+  		<a class="instagram" href="https://www.instagram.com/fantastecsport"></a>
+  		<a class="linkedIn" href="https://www.linkedin.com/company/fantastecsport"></a>
+  	</div>
+  </div>
+  <div id="downArrow" class="arrow"></div>
+
+{% endblock %}

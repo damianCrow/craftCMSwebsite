@@ -1,0 +1,10 @@
+node_modules
+*.log
+build
+tmp
+.grunt
+.gulp
+.DS_Store
+craft/*
+!craft/templates
+yarn.lock

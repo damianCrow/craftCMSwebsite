@@ -1,0 +1,24 @@
+{% block content %}
+	<section data-index="4" id="section4" class="page">
+		<div class="tint"></div>
+		<ul class="paginator custom">
+  		{% for entry in craft.entries.section('imagineif').find() %}
+				{% for block in entry.imagineIf %}
+					<li><a data-index="{{ loop.index - 1 }}" class="section4PaginatorButton"></a></li>
+				{% endfor %}
+			{% endfor %}
+  	</ul>
+	{% for entry in craft.entries.section('imagineif').find() %}
+
+		{% for block in entry.imagineIf %}
+			<div id="section4Background{{ loop.index - 1 }}" class="backgroundWrapper" style="background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('{{block.backgroundImage.first().url}}');
+  			background-position: center;"></div>
+  		
+			<div id="textWrapper{{ loop.index - 1 }}" class="textWrapper">
+	  		<h2 class="heading">{{ block.titleContent }}</h2>
+	  		<p>{{block.textContent}}</p>
+	  	</div>
+		{% endfor %}
+	{% endfor %}
+	</section>
+{% endblock %}

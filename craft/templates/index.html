@@ -1,0 +1,63 @@
+{% extends "_layout" %}
+	{% block content %}
+		<div id="loading"></div>
+		<div id="menuBlockOut" class="hidden"></div>
+
+		<div>
+			<button id="main-burger" class="burger">
+				<span class="burger__piece"></span>
+				<span class="burger__piece"></span>
+				<span class="burger__piece"></span>
+			</button>
+
+			<nav id="mainNav">
+				<a class="nav_link" data-index="1">home</a>
+				<a class="nav_link" data-index="2">about</a>
+				<a class="nav_link" data-index="3">innovate</a>
+				<a class="nav_link" data-index="4">imagine</a>
+				<a class="nav_link" data-index="5">work</a>
+				<a class="nav_link" data-index="6">contact</a>
+			</nav>
+		</div>
+
+		<div id="headerShape"></div>
+
+		<div id="scrollerWrapper">
+	    <section data-index="1" id="section1" class="page">
+	    	<video id="video" autoplay loop src="{{craft.entries.section('homeVideo').find()[0].videos[0].url}}"></video>
+	    	<div id="gfyCatEmbed" style='position:relative; padding-bottom:178%'>
+				  <iframe id="gfyCatEmbedIframe" src='https://gfycat.com/ifr/CourteousLinearIbex?referrer=http%3A%2F%2Fembed.ly%2Fcode%3Furl%3Dhttps%253A%252F%252Fgfycat.com%252FCourteousLinearIbex' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen>	
+	    		</iframe>
+	    	</div>
+	    </section>
+
+	    {% include "about-us/_partial.html" %}
+	    {% include "how-we-innovate/_partial.html" %}
+	    {% include "imagine-if/_partial.html" %}
+	    {% include "work-with-us/_partial.html" %}
+	    {% include "contact-us/_partial.html" %}
+
+	  </div>
+
+	  <div id="footer">
+	  	<p> 
+	  		
+	  	</p>
+	  	<div class="mediaWrapper">
+	  		<a class="twitter" href="https://twitter.com/FantastecSport"></a>
+	  		<a class="instagram" href="https://www.instagram.com/fantastecsport"></a>
+	  		<a class="linkedIn" href="https://www.linkedin.com/company/fantastecsport"></a>
+	  	</div>
+	  </div>
+	  <div id="downArrow" class="arrow"></div>
+	  <script>
+		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+		  ga('create', 'UA-106172674-1', 'auto');
+		  ga('send', 'pageview');
+
+		</script>
+	{% endblock %}

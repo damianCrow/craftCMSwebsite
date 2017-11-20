@@ -1,0 +1,32 @@
+{% extends "_layout" %}
+{% set title = "Imagine If" %}
+
+{% block content %}
+	<div id="loading"></div>
+	<div id="menuBlockOut" class="hidden"></div>
+
+	<div>
+		<button id="main-burger" class="burger">
+			<span class="burger__piece"></span>
+			<span class="burger__piece"></span>
+			<span class="burger__piece"></span>
+		</button>
+
+		<nav id="mainNav">
+			<a class="nav_link" data-index="1">home</a>
+			<a class="nav_link" data-index="2">about</a>
+			<a class="nav_link" data-index="3">innovate</a>
+			<a class="nav_link" data-index="4">imagine</a>
+			<a class="nav_link" data-index="5">work</a>
+			<a class="nav_link" data-index="6">contact</a>
+		</nav>
+	</div>
+
+  <section data-index="1" id="section1" class="page stand-alone">
+  	<video id="video" autoplay loop src="{{craft.entries.section('homeVideo').find()[0].videos[0].url}}"></video>
+  	<div id="gfyCatEmbed" style='position:relative; padding-bottom:178%'>
+		  <iframe id="gfyCatEmbedIframe" src='https://gfycat.com/ifr/CourteousLinearIbex?referrer=http%3A%2F%2Fembed.ly%2Fcode%3Furl%3Dhttps%253A%252F%252Fgfycat.com%252FCourteousLinearIbex' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen>	
+  		</iframe>
+  	</div>
+  </section>
+{% endblock %}

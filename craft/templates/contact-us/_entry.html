@@ -1,0 +1,83 @@
+{% extends "_layout" %}
+
+{% block content %}
+
+	<div>
+		<button id="main-burger" class="burger">
+			<span class="burger__piece"></span>
+			<span class="burger__piece"></span>
+			<span class="burger__piece"></span>
+		</button>
+	</div>
+
+	<div id="headerShape"></div>
+
+	<section data-index="6" id="section6" class="page stand-alone">
+		<div class="tint"></div>
+		<div id="section6Background" class="backgroundWrapper" style="width: 100vw; height: 100vh;"></div>
+	</section>
+	
+	<div id="footer">
+  	<div class="mediaWrapper">
+  		<a class="twitter" href="https://twitter.com/FantastecSport"></a>
+  		<a class="instagram" href="https://www.instagram.com/fantastecsport"></a>
+  		<a class="linkedIn" href="https://www.linkedin.com/company/fantastecsport"></a>
+  	</div>
+  </div>
+  <div id="downArrow" class="arrow"></div>
+
+  <script>
+				mapboxgl.accessToken = 'pk.eyJ1IjoibXJhd2Vzb21lIiwiYSI6ImNqMzJzeDN4ZjAwMHAyd250YmRyZm04MDcifQ.YcsqDP3hqulR3f523AoB1g';
+
+				var officeAddress = {{craft.entries.section("contactUs").find()[0].cudatamatrix[0].address|replace({"<p>": ""})|replace({"</p>": "</br>"})|json_encode()|raw }}.replace('"', '');
+
+				var bounds = [
+				    [-74.08633022449791, 40.67099989314178], 
+				    [-73.7202743886315, 40.893309881421345] 
+				];
+
+				var map = new mapboxgl.Map({
+					container: 'section6Background',
+					center: [-0.611835206780952, 51.24045782724647],
+					zoom: 16.5,
+					pitch: 65,
+    			bearing: 15,
+					style: 'mapbox://styles/mrawesome/cj7hm5d2w4lkm2rp9t5z6ikv3',
+					interactive: false
+				}).addControl(new mapboxgl.NavigationControl());
+
+				function createMarker() {
+			    var el = $('<div><div class="marker"><h3>{{craft.entries.section("contactUs").find()[0].cudatamatrix[0].markerTitle}}</h3><p>'+officeAddress+'</p><a class="green" href="{{craft.entries.section("contactUs").find()[0].cudatamatrix[0].googleMapsLink}}">open in google maps</a><p>T: <a href="tel:{{craft.entries.section("contactUs").find()[0].cudatamatrix[0].telephoneNumber}}">{{craft.entries.section("contactUs").find()[0].cudatamatrix[0].telephoneNumber}}</a></p><p>E: <a href="mailto:{{craft.entries.section("contactUs").find()[0].cudatamatrix[0].contactEmailAddress}}">{{craft.entries.section("contactUs").find()[0].cudatamatrix[0].contactEmailAddress}}</a></p></div><div class="markerPoint"></div></div>').get(0);
+
+			    new mapboxgl.Marker(el, {offset: [50, 50]})
+		        .setLngLat([-0.611500906980952, 51.244910082724647])
+		        .addTo(map);
+				}
+				
+				createMarker();
+
+				map.on('load', function() {
+			    map.addLayer({
+			        'id': '3d-buildings',
+			        'source': 'composite',
+			        'source-layer': 'building',
+			        'filter': ['==', 'extrude', 'true'],
+			        'type': 'fill-extrusion',
+			        'minzoom': 4,
+			        'paint': {
+			            'fill-extrusion-color': '#676767',
+			            'fill-extrusion-height': {
+			                'type': 'identity',
+			                'property': 'height'
+			            },
+			            'fill-extrusion-base': {
+			                'type': 'identity',
+			                'property': 'min_height'
+			            },
+			            'fill-extrusion-opacity': 1
+			        }
+			    });
+			});
+		</script>
+
+{% endblock %}

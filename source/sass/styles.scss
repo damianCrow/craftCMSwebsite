@@ -1,0 +1,1151 @@
+// base
+@import "partials/_mixin.scss";
+@import "partials/onepage-scroll.scss";
+
+// colors \\
+
+$white: #ffffff;
+$orange: #e66300;
+$green: #83c000;
+$black: #000000;
+$grey: #333333;
+
+// end of colors \\
+
+// overides \\
+
+.onepage-pagination {
+  transform: translateZ(0);
+  @include breakpoint(mobile) {
+    display: none;
+  }
+  @include breakpoint(desktop) {
+    display: block;
+  }
+
+  transform: translateY(-50%);
+
+  li {
+     &:nth-child(1) a:after {
+        content: 'home';
+      }
+      &:nth-child(2) a:after {
+        content: 'about';
+      }
+      &:nth-child(3) a:after {
+        content: 'innovate';
+      }
+      &:nth-child(4) a:after {
+        content: 'imagine';
+      }
+      &:nth-child(5) a:after {
+        content: 'work';
+      }
+      &:nth-child(6) a:after {
+        content: 'contact';
+      }
+
+    a {
+      position: relative;
+
+      &:before {
+        background: $white;
+        width: 8px;
+        height: 8px;
+        transition: background 1s ease-out;
+        will-change: transition;
+      }
+
+      &:after {
+        position: absolute;
+        color: $white;
+        right: 25px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-weight: 100;
+        text-transform: uppercase;
+        transition: all 1s ease-out;
+        font-size: 13px;
+        will-change: transition;
+      }
+      &.active:before {
+        transform: translateZ(0);
+        border-color: $orange;
+        border-width: 3px;
+        animation: pulse 1s ease-out infinite;
+        will-change: transform;
+      }
+      &.active:after {
+        color: $orange;
+        font-weight: 400;
+      }
+    }
+  }
+}
+
+.mapboxgl-ctrl-top-right {
+  display: none;
+}
+
+// end of overides \\
+
+$scale: scale;
+$pulse: pulse;
+$bigPulse: bigPulse;
+$moveUp: moveUp;
+$fadeIn: fadeIn;
+
+// // Add or Remove stops easily
+$stops: (
+  0%: scale(1.1),
+  100%: scale(1.0)
+);
+
+$stops2: (
+  0%: scale(1),
+  50%: scale(0.75),
+  100%: scale(1)
+);
+
+$stops3: (
+  0%: translateY(35%),
+  100%: translateY(0)
+);
+
+$stops4: (
+  0%: scale(1) translateX(-50%),
+  50%: scale(1.25) translateX(-50%),
+  100%: scale(1) translateX(-50%)
+);
+
+// // Where action happens
+// @mixin keyframe-generator($map, $name){
+//   @keyframes #{$name} {
+//     @each $key, $value in $map {  
+//       #{$key} {
+//         opacity: $value;  
+//       }
+//     }
+//   }
+// }
+
+@mixin keyframe-generator($map, $name){
+  @keyframes #{$name} {
+    @each $key, $value in $map {
+      #{$key} {
+        transform: $value;
+      }
+    }
+  }
+}
+
+@include keyframe-generator($stops, $scale);
+@include keyframe-generator($stops3, $moveUp);
+@include keyframe-generator($stops2, $pulse);
+@include keyframe-generator($stops4, $bigPulse);
+
+.scaleBackground {
+  animation: scale 1s ease-out forwards;
+}
+
+.removeTint {
+  // animation: tint 1s ease-out forwards;
+  opacity: 0 !important;
+}
+
+.addTint {
+  // animation: tint 1s reverse ease-out forwards;
+  opacity: 0.5 !important;
+}
+
+.addFullTint {
+  // animation: tint 1s reverse ease-out forwards;
+  opacity: 1 !important;
+}
+
+.fadeIn {
+  animation: moveUp 1s ease-out forwards;
+}
+
+@-ms-viewport{
+  width: device-width;
+}
+
+.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.show {
+  opacity: 1 !important;
+  pointer-events: all;
+}
+
+#loading {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  background-image: url('../images/loading.gif');
+  z-index: 5;
+  background-color: $grey;
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: opacity 0.5s ease-out;
+  will-change: transition;
+  &:after {
+    content: 'loading...';
+    color: $green;
+    font-size: 25px;
+    left: calc(50% - 55px);
+    top: calc(50% + 150px);
+    position: absolute;
+  }
+}
+
+#menuBlockOut {
+  z-index: 4;
+  width: 100%;
+  height: 100%;
+  background-color: $black;
+  opacity: 0.8;
+  position: absolute;
+  will-change: opacity;
+  &.hidden {
+    opacity: 0;
+  }
+}
+
+.button {
+  will-change: transform;
+  @include breakpoint(mobile) {
+    width: 100px;
+    height: 25px;
+    line-height: 25px;
+  }
+  @include breakpoint(desktop) {
+    width: 142px;
+    height: 34px;
+    line-height: 34px;
+  }
+  text-decoration: none;
+  border: 3px solid $orange;
+  border-radius: 4px;
+  position: absolute;
+  text-transform: uppercase;
+  text-align: center;
+  color: $white;
+  font-weight: 100;
+}
+
+.paginator.custom {
+  &.landscape {
+    top: calc(100% - 100px);
+  }
+
+  @extend .onepage-pagination;
+
+  @include breakpoint(mobile) {
+    display: block;
+  }
+  transform: translateY(0) rotate(-90deg) translateX(-50%);
+  top: calc(100% - 150px);
+  left: 50%;
+  width: 10px;
+  li:nth-child(odd) a:after, li:nth-child(even) a:after {
+    content: '';
+  }
+}
+
+.burger {
+  @include breakpoint(mobile) {
+    right: 29px;
+    top: 29px
+  }
+  @include breakpoint(tablet) {
+    right: 45px;
+    top: 45px
+  }
+  will-change: transform;
+  transform: translateZ(0);
+  $root: &;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  flex-direction: column;
+  font-size: 1.75em;
+  height: 1.25rem;
+  justify-content: space-around;
+  margin-left: auto;
+  outline: transparent;
+  padding: 0;
+  position: fixed;
+  transition: transform .25s;
+  width: 25px;
+  z-index: 5;
+
+  @include breakpoint(desktop) {
+    display: none;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  &--sub-nav-open {
+    #{$root}__piece {
+      border-top: 2px solid palette(gray, black);
+    }
+  }
+
+  &__piece {
+    border-top: 2px solid $white;
+    display: block;
+    flex: 0 1 1px;
+    position: absolute;
+    right: 0;
+    transform-origin: 50% 50%;
+    transition: transform .25s, opacity .12s, border 1s cubic-bezier(.86, 0, .07, 1), width .25s;
+    width: 100%;
+  }
+
+  span {
+    top: 50%;
+
+    &:first-child {
+      top: 0;
+    }
+
+    &:last-child {
+      top: 100%;
+    }
+  }
+
+  &--side {
+    margin-left: 1rem; 
+    span {
+      border-top: 2px solid palette(teal, base);
+
+      &:nth-child(1) {
+        width: 80%;
+      }
+
+      &:nth-child(2) {
+        width: 60%;
+      }
+
+      &:nth-child(3) {
+        width: 100%;
+      }
+    }
+  }
+
+  &--show-all {
+    @media screen and (min-width: 320px) {
+      display: inline-block;
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+
+  &--active {
+    // Active burger
+    $rotate-angle: 45;
+    // transform: translateX(-1.5rem);
+
+    #{$root}__piece {
+      border-top: 2px solid palette(gray, white);
+    }
+
+    span {
+      opacity: 0;
+      // transform: scale(.5);
+
+      &:first-child {
+        opacity: 1;
+        // transform: rotate(45deg) translateY(.70rem) translateX(0);
+        transform: rotate(45deg) translateY(0.675rem) translateX(0px);
+      }
+
+      &:last-child {
+        opacity: 1;
+        // transform: rotate(-45deg) translateY(-0.70rem) translateX(0);
+        transform: rotate(-45deg) translateY(-0.9rem) translateX(3px);
+      }
+    }
+
+    &#{$root}--side {
+      #{$root}__piece {
+        border-top: 2px solid palette(teal, base);
+        width: 100% !important;
+      }
+    }
+  }
+}
+
+#mainNav {
+  transform: translateZ(0);
+  width: 50%;
+  float: left;
+  margin-left: 0px;
+  display: block;
+  top: 0;
+  text-align: center;
+  position: fixed;
+  transition: right 0.5s cubic-bezier(0, 0.07, 0.12, 0.98);
+  z-index: 4;
+  background-color: $green;
+  height: 100%;
+
+  a {
+    @include breakpoint(mobile) {
+      margin: 7.5% 29px;
+    }
+    @include breakpoint(tablet) {
+      margin: 7.5% 45px;
+    }
+
+    &.landscape {
+      height: 16px;
+    }
+    display: block;
+    height: 35px;
+    text-decoration: none;
+    color: #fff;
+    text-align: left;
+    text-transform: uppercase;
+    top: 75px;
+    position: relative;
+    font-weight: 100;
+  }
+}
+
+@include breakpoint(mobile) {
+  #mainNav {
+    right: -50%;
+  }
+}
+
+@include breakpoint(desktop) {
+  #mainNav {
+    display: none;
+  }
+}
+
+#mainNav.nav_open {
+  opacity: 1;
+  right:0;
+}
+
+.mapboxgl-marker {
+  top: -30px !important;
+}
+
+.marker {
+  &.landscape {
+    &:after {
+      display: none;
+    }
+  }
+  @include breakpoint(mobile) {
+    height: 250px;
+    width: 200px;
+  }
+  
+  font-family: 'Montserrat', sans-serif;
+  background-color: $grey;
+  color: $white;
+  font-weight: 100;
+  border: 3px solid $green;
+  z-index: 2;
+
+  p, h3, a {
+    margin-left: 20px;
+    font-size: 0.8rem;
+    color: $white;
+  }
+
+  h3 {
+    margin-top: 20px;
+    font-weight: 200;
+    font-size: 1.2rem;
+  }
+
+  a {
+    margin: 0;
+    text-decoration: none;
+    &.green {
+      color: $green;
+      text-transform: uppercase;
+      margin-left: 20px;
+    }
+    &:last-child {
+      z-index: 10;
+      position: absolute;
+      padding-left: 4px;
+    }
+  }
+  &:after {
+    @include breakpoint(mobile) {
+      top: 108%;
+      left: 20%;
+    }
+    @include breakpoint(tablet) {
+      top: 120%;
+      left: 28%;
+    }
+    @include breakpoint(desktop) {
+      top: 124%;
+      left: 29%;
+    }
+    width: 75px;
+    height: 75px;
+    content: '';
+    background: none;
+    border: 10px solid $green;
+    position: absolute;
+    border-radius: 50%;
+    transform: rotateX(50deg);
+    animation: pulse 1s ease-out infinite;
+  }
+}
+//  MARKER POINT HIDDEN \\
+.markerPoint {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  left: 75px;
+  bottom: -26px;
+  background-color: $grey;
+  transform: rotate(45deg);
+  border-right: 3px solid $green;
+  border-bottom: 3px solid $green;
+  display: none;                 
+}
+
+html, body, #scrollerWrapper {
+  will-change: transform;
+  font-family: 'Montserrat', sans-serif;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100%;
+  background-color: $grey;
+  max-width: 2600px;
+  margin: 0 auto;
+}
+
+#headerShape {
+  &.landscape {
+    display: none;
+  }
+  will-change: transform, top, left, height, width;
+  pointer-events: none;
+  @include breakpoint(mobile) {
+    height: 500px;
+    width: 500px;
+    top: -435px;
+    left: -168px;
+  }
+  @include breakpoint(tablet) {
+    height: 750px;
+    width: 750px;
+    top: -650px;
+    left: -250px;
+  }
+  @include breakpoint(desktop) {
+    height: 1000px;
+    width: 1000px;
+    top: -875px;
+    left: -333px;
+  }
+
+  transform: translateZ(0);
+  position: fixed;
+  z-index: 1;
+  border-radius: 50%;
+  background-color: $green;
+  background-position: 50% 109%;
+  background-image: url(../images/logo.svg);
+  background-repeat: no-repeat;
+  background-size: 50%;
+  transform: translateY(0);
+  transition: transform 0.5s ease-out, top 0.5s ease-out;
+  &.moveOffScreen {   
+    @include breakpoint(mobile) {
+      transform: translateY(-65px);
+    }
+    @include breakpoint(tablet) {
+      transform: translateY(-100px);
+    }
+    @include breakpoint(desktop) {
+      transform: translateY(-125px);
+    }
+  }
+}
+
+#video {
+  @include breakpoint(mobile) {
+    display: none;
+  }
+  @include breakpoint(desktop) {
+    display: block;
+  }
+  transform: translateZ(0);
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+  position: absolute;
+  top: 50%; 
+  left: 50%;
+  z-index: 1;
+  transform: translate(-50%, -50%);
+}
+
+#gfyCatEmbed {
+  pointer-events: none;
+  @include breakpoint(mobile) {
+    display: block;
+  }
+  @include breakpoint(desktop) {
+    display: none;
+  }
+}
+
+.greenText {
+  color: $green;
+}
+
+.page {
+  will-change: transform, top, left, height, width;
+  transform: translateZ(0);
+  overflow: hidden;
+
+  &.stand-alone {
+    height: 100vh;
+  }
+
+  .heading.standAlone {
+    will-change: transform, top, left;
+    transform: translateZ(0);
+    @include breakpoint(mobile) {
+      left: 29px;
+      font-size: 1rem;
+      top: 15%;
+    }
+    @include breakpoint(tablet) {
+      left: 45px;
+    }
+    @include breakpoint(desktop) {
+      top: 20%;
+      left: 60px;
+      font-size: 2rem;
+    }
+    text-transform: uppercase;
+    font-weight: 200;
+    color: $white;
+    position: absolute;
+    top: 20%;
+    left: 60px;
+    z-index: 3;
+  }
+  
+  .textWrapper {
+    &.landscape {
+      p {
+        width: 100%;
+      }
+    }
+
+    &.show {
+      opacity: 1;
+    }
+
+    will-change: transform, top, left, opacity;
+    transform: translateZ(0);
+    position: absolute;
+    opacity: 0;
+    @include breakpoint(mobile) {
+      width: calc(100% - 58px);
+      margin-left: 0px;
+      text-align: center;
+      transform: translateX(-50%) translateY(-50%);
+      left: 50%;
+      top: 50%;
+      text-align: left;
+    }
+    @include breakpoint(tablet) {
+      width: calc(100% - 90px);
+    }
+    @include breakpoint(desktop) {
+      top: 20%;
+      width: 33.33333333333333%;
+      margin-left: 60px;
+      left: 0;
+      transform: translateX(0) translateY(0);
+      text-align: left;
+    }
+    
+    .heading {
+      transform: translateZ(0);
+      @include breakpoint(mobile) {
+        font-size: 1rem;
+      }
+      @include breakpoint(desktop) {
+        font-size: 2rem;
+      }
+
+      text-transform: uppercase;
+      font-weight: 200;
+      color: $white;
+    }
+    p {
+      transform: translateZ(0);
+      @include breakpoint(mobile) {
+        font-size: 0.8rem;
+        width: 100%;
+      }
+      @include breakpoint(tablet) {
+        font-size: 1rem;
+        width: 70%;
+      }
+      @include breakpoint(desktop) {
+        width: 100%;
+      }
+
+      margin-top: 2rem; 
+      font-weight: 200;
+      color: $white;
+      &.largeText {
+        transform: translateZ(0);
+        @include breakpoint(mobile) {
+          font-size: 1rem;
+        }
+        @include breakpoint(tablet) {
+          font-size: 1.15rem;
+        }
+      }
+    }
+    &.center {
+      transform: translateZ(0);
+      p {
+        @include breakpoint(mobile) {
+          font-size: 1rem;
+          width: 100%;
+        }
+      }
+      @include breakpoint(mobile) {
+        text-align: left;
+        width: calc(100% - 58px);
+      }
+      @include breakpoint(tablet) {
+        text-align: center;
+        width: 50%;
+      }
+      @include breakpoint(desktop) {
+        width: 33.33333333333%;
+      }
+      transform: translateX(-50%) translateY(-50%);
+      left: 50%;
+      top: 50%;
+      margin-left: 0;
+    }
+  }
+  .paginatorWrapper {
+    transform: translateZ(0);
+    position: relative;
+    width: 100%;
+  }
+}
+
+#section2 {
+  .backgroundWrapper {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    transition: opacity 1s ease-out;
+    opacity: 0;
+    position: absolute;
+  }
+  .textWrapper {
+    opacity: 1;
+  }
+}
+
+#section3 {
+  .backgroundWrapper {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    transition: opacity 1s ease-out;
+    opacity: 0;
+    position: absolute;
+  }
+}
+
+#section4 {
+  p {
+    @include breakpoint(mobile) {
+      font-size: 1rem;
+    }
+    @include breakpoint(desktop) {
+      font-size: 1.15rem;
+    }
+  }
+
+  .paginator.custom {
+    top: calc(100% - 185px);
+    &.landscape {
+      top: calc(100% - 140px);
+    }
+  }
+
+  .backgroundWrapper {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    transition: opacity 1s ease-out;
+    opacity: 0;
+    position: absolute;
+  }
+}
+
+#section5 {
+  &.landscape {
+    flex-direction: row;
+    .subSection {
+      width: 33.333333333%;
+      height: 100%;
+      &.first {
+        height: 100%;
+      }
+      &.open {
+        width: 60%;
+        height: 100%;
+      }
+      &.closed {
+        width: 20%;
+        height: 100%;
+      }
+    }
+  }
+  @include breakpoint(mobile) {
+    flex-direction: column;
+  }
+  @include breakpoint(desktop) {
+    flex-direction: row;
+  }
+
+  display: flex;
+
+  .heading.standAlone {
+    will-change: transform, opacity;
+    @include breakpoint(mobile) {
+      display: none;
+    }
+    @include breakpoint(desktop) {
+      display: block;
+    }
+
+    opacity: 0;
+    transition: opacity 1s ease-out;
+  }
+
+  .subSection {
+    will-change: transition, transform, height, width;
+    cursor: pointer;
+    transform: scale(1.1);
+    @include breakpoint(mobile) {
+      width: 100%;
+      height: calc(30% - 15px);
+    }
+    @include breakpoint(desktop) {
+      width: 33.333333333%;
+      height: 100%;
+    }
+
+    &.first {
+      @include breakpoint(mobile) {
+        height: calc(40% - 15px);
+      }
+      @include breakpoint(desktop) {
+        height: 100%;
+      }
+      .textWrapper {
+        .heading {
+          @include breakpoint(mobile) {
+            margin-top: 42%;
+          }
+          @include breakpoint(desktop) {
+            margin-top: auto;
+          }
+        }
+      }
+      &.first.open {
+        .textWrapper {
+          .heading {
+            @include breakpoint(mobile) {
+              margin-top: 19%;
+            }
+            @include breakpoint(desktop) {
+              margin-top: auto;
+            }
+          }
+          p {
+            @include breakpoint(mobile) {
+              margin-top: 0.5rem;
+            }
+          }
+        }
+      }
+    }
+
+    transition: width 0.75s ease-in-out, height 0.75s ease-in-out;
+    position: relative;
+    overflow: hidden;
+    &.closed {
+      @include breakpoint(mobile) {
+        width: 100%;
+        height: 20%;
+      }
+      @include breakpoint(desktop) {
+        width: 20%;
+        height: 100%;
+      }
+    }
+    &.open {
+      @include breakpoint(mobile) {
+        width: 100%;
+        height: calc(60% - 45px);
+      }
+      @include breakpoint(desktop) {
+        width: 60%;
+        height: 100%;
+      }
+    }
+
+    .backgroundWrapper {
+      width: 100%;
+      background-position: center center;
+    }
+    .textWrapper {
+      @include breakpoint(mobile) {
+        height: auto;
+      }
+      @include breakpoint(desktop) {
+        height: 100%;
+      }
+      p, .heading, .button {
+        @include breakpoint(mobile) {
+          top: 50%;
+        }
+        @include breakpoint(desktop) {
+          top: calc(50% - 110px);
+        }
+        opacity: 0;
+        position: relative;
+        transition: opacity 0.5s ease-out;
+        &.fadeIn {
+          opacity: 1;
+        }
+      }
+      p {
+        @include breakpoint(mobile) {
+          margin-top: 1rem;
+        }
+      }
+
+      .heading {
+        @include breakpoint(mobile) {
+          margin-top: 22.5%;
+        }
+        @include breakpoint(desktop) {
+          margin-top: auto;
+        }
+      }
+
+      .button {
+        display: block;
+        @include breakpoint(mobile) {
+          left: 0;
+          margin-top: 10px;
+          padding: 0;
+        }
+        @include breakpoint(tablet) {
+          left: calc(50% - 53px);
+        }
+        @include breakpoint(desktop) {
+          left: calc(50% - 89px);
+          margin-top: 30px;
+          padding: 3px 15px;
+        }
+      } 
+    }
+  }
+}
+
+#section6 {
+  #section6Background {
+    will-change: transform, opacity;
+    transform: scale(1.1);
+  }
+}
+
+.tint {
+  will-change: opacity;
+  transform: translateZ(0);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 2;
+  background-color: $black;
+  opacity: 0.4;
+  pointer-events: none;
+  transition: opacity 1s ease-out;
+}
+
+.backgroundWrapper {
+  will-change: opacity;
+  transform: translateZ(0);
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+  transition: background-image 0.5s ease-out;
+}
+
+#footer {
+  &.landscape {
+    display: none;
+  }
+  will-change: transform;
+  transform: translateZ(0);
+  @include breakpoint(mobile) {
+    height: 45px;
+  }
+  @include breakpoint(tablet) {
+    height: 60px;
+  }
+  @include breakpoint(desktop) {
+    height: 80px;
+  }
+
+  background-color: $grey;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  z-index: 2;
+  transform: translateY(0);
+  transition: transform 0.5s ease-out;
+  &.moveOffScreen {
+    @include breakpoint(mobile) {
+      transform: translateY(45px);
+    }
+    @include breakpoint(tablet) {
+      transform: translateY(60px);
+    }
+    @include breakpoint(desktop) {
+      transform: translateY(80px);
+    }
+  }
+
+  p {
+    @include breakpoint(mobile) {
+      margin: 0 0 0 29px;
+      width: calc(50% - 58px);
+      font-size: 0.5rem;
+      font-weight: 100;
+    }
+    @include breakpoint(tablet) {
+      font-size: 0.65rem;
+      width: calc(50% - 90px);
+      margin: 0 0 0 45px;
+    }
+    @include breakpoint(desktop) {
+      margin: 0 0 0 60px;
+      width: calc(50% - 120px);
+      font-size: 0.8rem;
+    }
+    color: $white;
+    font-weight: 100;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    max-height: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+  .mediaWrapper {
+    @include breakpoint(mobile) {
+      right: 29px;
+    }
+    @include breakpoint(tablet) {
+      right: 45px;
+    }
+    @include breakpoint(desktop) {
+      right: 60px;
+    }
+
+    display: flex;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    a {
+      height: 25px;
+      width: 25px;
+      flex-direction: row;
+      margin-right: 10px;
+      &:last-child {
+        margin-right: 0px;
+      }
+
+      &:after {
+        content: '';
+        height: 25px;
+        width: 25px;
+        position: fixed;
+        background-repeat: no-repeat;
+      }
+    }
+
+    .instagram:after {
+      background-image: url('../images/instagram.svg');
+      background-size: cover;
+    }
+    .linkedIn:after {
+      background-image: url('../images/linkedIn.svg');
+      height: 24px;
+    }
+    .twitter:after {
+      background-size: 108%;
+      background-position: center;
+      background-image: url('../images/twitter.svg');
+    }
+  }
+}
+
+.arrow {
+  @include breakpoint(mobile) {
+    height: 45px;
+  }
+  @include breakpoint(tablet) {
+    height: 60px;
+  }
+  @include breakpoint(desktop) {
+    height: 80px;
+  }
+  
+  will-change: transform;
+  transform: translateZ(0);
+  transform-origin: 0;
+  bottom: 0;
+  z-index: 3;
+  position: absolute;
+  width: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-image: url(../images/downArrow.svg);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  &.pulsate {
+    animation: bigPulse 1s ease-out infinite;
+  }
+}

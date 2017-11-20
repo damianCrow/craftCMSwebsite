@@ -1,0 +1,27 @@
+{% block content %}
+	<section data-index="3" id="section3" class="page">
+		<div class="tint"></div>
+	  <h2 class="heading standAlone">{{craft.entries.section('howWeInnovate').find()[0].title}}</h2>
+
+		<ul class="paginator custom">
+  		{% for entry in craft.entries.section('howWeInnovate').find() %}
+				{% for block in entry.hwidatamatrix %}
+					<li><a data-index="{{ loop.index - 1 }}" class="section3PaginatorButton"></a></li>
+				{% endfor %}
+			{% endfor %}
+  	</ul>
+
+		{% for entry in craft.entries.section('howWeInnovate').find() %}
+			{% for block in entry.hwidatamatrix %}
+
+				<div id="section3Background{{ loop.index - 1 }}" class="backgroundWrapper" style="background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('{{block.backgroundimage.first().url}}');
+	  			background-position: center;"></div>
+	  		
+				<div id="textWrapper{{ loop.index - 1 }}" class="textWrapper center">
+		  		<h2 class="heading">{{ block.subHeading }}</h2>
+		  		<p>{{block.paragraph}}</p>
+		  	</div>
+			{% endfor %}
+		{% endfor %}
+	</section>
+{% endblock %}
