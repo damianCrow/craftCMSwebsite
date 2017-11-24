@@ -36,8 +36,8 @@ $(document).ready(() => {
 			$('.tint').removeClass('removeTint');
 			$('.subSection').removeClass('scaleBackground');
 			$(`.backgroundWrapper:not(#section${index}Background)`).removeClass('scaleBackground');
-			$(`#section${index}`).find(`.backgroundWrapper`).addClass('scaleBackground');
-			$(`#section${index}`).find('.tint').addClass('removeTint');
+			$(`.section.active`).find(`.backgroundWrapper`).addClass('scaleBackground');
+			$(`section.active`).find('.tint').addClass('removeTint');
 
 			if($(`.section${index}PaginatorButton`).length && $(`.section${index}PaginatorButton.active`).length < 1) {
 				$(`.section${index}PaginatorButton`).get(0).click();
@@ -205,6 +205,32 @@ $(document).ready(() => {
 		}
 	}
 
+	let section3Automated, automateSection3, section4Automated, automateSection4;
+// MANAGEMENT FUNCTION FOR SETTING AND CLEARING THE SLIDE AUTOMATION INTERVALS. \\
+
+	const intervalManager = (flag, sectionId, time) => {
+   	if(flag) {
+   		if(sectionId === 'section3') {
+   			automateSection3 = setInterval(() => {
+	     		swipeController(sectionId, 'l');	
+	     	}, time);
+   		}
+   		if(sectionId === 'section4') {
+   			automateSection4 = setInterval(() => {
+	     		swipeController(sectionId, 'l');	
+	     	}, time);
+   		}
+     	 
+   	} else {
+   		if(sectionId === 'section3') {
+    		clearInterval(automateSection3);
+    	}
+    	if(sectionId === 'section4') {
+    		clearInterval(automateSection4);
+    	}
+   	}
+	};
+
 // IF NOT IN CMS ADMIN PREVIEW, PERPETUALLY CHECK IF WE ARE AT THE TOP OF THE PAGE AND IF SO, DONT SHOW THE FOOTER OR GREEN SHAPE. \\
 
 	if(!$(location).attr('href').includes('index.php')) {
@@ -239,7 +265,31 @@ $(document).ready(() => {
 			} else {
 				 $('.nav_link, #headerShape, #footer, .custom, .marker, #section5, .textWrapper').removeClass('landscape');
 			}
-		}, 250);
+
+			if($('#section3.active').length) { // AUTOMATE THE SLIDES ON SECTIOPN 3 EVERY 7 SECONDS IF THE SECTION IS ACTIVE. \\
+				if(section3Automated !== true) {
+					section3Automated = true;
+					intervalManager(true, 'section3', 7000);
+				}
+			} else { // STOP AUTOMATED SLIDES ON SECTIOPN 3 IF THE SECTION IS NOT ACTIVE. \\
+				if(section3Automated === true) {
+					intervalManager(false, 'section3');
+					section3Automated = false;
+				}
+			}
+
+			if($('#section4.active').length) { // AUTOMATE THE SLIDES ON SECTIOPN 4 EVERY 7 SECONDS IF THE SECTION IS ACTIVE. \\
+				if(section4Automated !== true) {
+					section4Automated = true;
+					intervalManager(true, 'section4', 7000);
+				}
+			} else { // STOP AUTOMATED SLIDES ON SECTIOPN 4 IF THE SECTION IS NOT ACTIVE. \\
+				if(section4Automated === true) {
+					intervalManager(false, 'section4');
+					section4Automated = false;
+				}
+			}
+		}, 500);
 	}
 
 // CONTROL WHAT HAPPENS WHEN LINKS IN THE NAV/MENU ARE CLICKED \\
@@ -256,7 +306,7 @@ $(document).ready(() => {
     } 
 	});
 
-// WHEN THE NAVE IS OPEN PREVENT USER FROM BEING ABLE TO CLICK ANYTHING ELSE \\
+// WHEN THE NAV IS OPEN PREVENT USER FROM BEING ABLE TO CLICK ANYTHING ELSE \\
 
 	$('#menuBlockOut').click((e) => {
 	   e.stopPropagation();

@@ -386,10 +386,10 @@ body.disabled-onepage-scroll, .disabled-onepage-scroll .onepage-wrapper, html {
     display: none; }
   @media (min-width: 300px) {
     .marker {
-      height: 250px;
+      height: 260px;
       width: 200px; } }
   .marker p, .marker h3, .marker a {
-    margin-left: 20px;
+    margin: 8px 0 8px 20px;
     font-size: 0.8rem;
     color: #ffffff; }
   .marker h3 {
@@ -883,12 +883,15 @@ html, body, #scrollerWrapper {
         margin: 0 0 0 29px;
         width: calc(50% - 58px);
         font-size: 0.5rem;
-        font-weight: 100; } }
+        font-weight: 100;
+        -webkit-line-clamp: 3;
+        max-height: 30px; } }
     @media (min-width: 575px) {
       #footer p {
         font-size: 0.65rem;
         width: calc(50% - 90px);
-        margin: 0 0 0 45px; } }
+        margin: 0 0 0 45px;
+        max-height: 50px; } }
     @media (min-width: 800px) {
       #footer p {
         margin: 0 0 0 60px;

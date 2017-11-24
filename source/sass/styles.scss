@@ -445,7 +445,7 @@ $stops4: (
     }
   }
   @include breakpoint(mobile) {
-    height: 250px;
+    height: 260px;
     width: 200px;
   }
   
@@ -457,7 +457,7 @@ $stops4: (
   z-index: 2;
 
   p, h3, a {
-    margin-left: 20px;
+    margin: 8px 0 8px 20px;
     font-size: 0.8rem;
     color: $white;
   }
@@ -1045,11 +1045,15 @@ html, body, #scrollerWrapper {
       width: calc(50% - 58px);
       font-size: 0.5rem;
       font-weight: 100;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical; 
+      max-height: 30px; 
     }
     @include breakpoint(tablet) {
       font-size: 0.65rem;
       width: calc(50% - 90px);
       margin: 0 0 0 45px;
+      max-height: 50px; 
     }
     @include breakpoint(desktop) {
       margin: 0 0 0 60px;
