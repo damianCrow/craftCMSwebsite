@@ -514,14 +514,25 @@ html, body, #scrollerWrapper {
     #video {
       display: block; } }
 
-#gfyCatEmbed {
-  pointer-events: none; }
+.mobile-image {
+  background-size: contain; }
   @media (min-width: 300px) {
-    #gfyCatEmbed {
+    .mobile-image {
       display: block; } }
   @media (min-width: 800px) {
-    #gfyCatEmbed {
+    .mobile-image {
       display: none; } }
+
+#canvasWrapper {
+  background-image: url("../images/Fantastec_Logo_Text.svg");
+  position: relative;
+  width: 100%;
+  background-size: 200%;
+  background-position: center;
+  top: calc(50% - 100px); }
+  #canvasWrapper #canvas {
+    position: relative;
+    margin-left: 8%; }
 
 .page {
   will-change: transform, top, left, height, width;
@@ -642,22 +653,22 @@ html, body, #scrollerWrapper {
     position: relative;
     width: 100%; }
 
-#section2 .backgroundWrapper {
+#section1 .backgroundWrapper, #section2 .backgroundWrapper, #section3 .backgroundWrapper, #section4 .backgroundWrapper {
   will-change: transform, opacity;
   transform: translateZ(0);
   transition: opacity 1s ease-out;
   opacity: 0;
   position: absolute; }
+
+.backgroundWrapper {
+  will-change: transition;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+  width: 100%; }
 
 #section2 .textWrapper {
   opacity: 1; }
-
-#section3 .backgroundWrapper {
-  will-change: transform, opacity;
-  transform: translateZ(0);
-  transition: opacity 1s ease-out;
-  opacity: 0;
-  position: absolute; }
 
 @media (min-width: 300px) {
   #section4 p {
@@ -671,13 +682,6 @@ html, body, #scrollerWrapper {
   top: calc(100% - 185px); }
   #section4 .paginator.custom.landscape {
     top: calc(100% - 140px); }
-
-#section4 .backgroundWrapper {
-  will-change: transform, opacity;
-  transform: translateZ(0);
-  transition: opacity 1s ease-out;
-  opacity: 0;
-  position: absolute; }
 
 #section5 {
   display: -ms-flexbox;
@@ -827,15 +831,6 @@ html, body, #scrollerWrapper {
   opacity: 0.4;
   pointer-events: none;
   transition: opacity 1s ease-out; }
-
-.backgroundWrapper {
-  will-change: opacity;
-  transform: translateZ(0);
-  background-repeat: no-repeat;
-  background-size: cover;
-  height: 100%;
-  width: 100%;
-  transition: background-image 0.5s ease-out; }
 
 #footer {
   will-change: transform;

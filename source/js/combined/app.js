@@ -1,22 +1,173 @@
-// INITIALISE GLOBAL VARIABLES. \\ JS BY damianCrow
-
 const time = 750;
 let section3Idx = 0;
 let section4Idx = 0;
 
-$(document).ready(() => {
+// let FootballFrames, TennisFrames, BaseballFrames, BasketballFrames, FanFrames, IdleFrame;
+let tennisAnimation, footballAnimation, basketballAnimation, baseballAnimation, fanAnimation;
 
+const masterObj = {
+	section2CurrentIdx: 0, 
+	section1CurrentIdx: 0,
+	basketball: {loopAmount: 1, loopId: basketballAnimation},
+	football: {loopAmount: 1, loopId: footballAnimation},
+	tennis: {loopAmount: 1, loopId: tennisAnimation},
+	baseball: {loopAmount: 1, loopId: baseballAnimation},
+	fan: {loopAmount: 1, loopId: fanAnimation}
+};
+const homepageMobImages = [
+	'assets/images/homepageMob/basketball.jpg',
+	'assets/images/homepageMob/football.jpg',
+	'assets/images/homepageMob/tennis.jpg', 
+	'assets/images/homepageMob/baseball.jpg', 
+	'assets/images/homepageMob/fan.jpg' 
+]
+
+$(document).ready(() => {
 // WAIT FOR gfyCatEmbed VIDEO TO START PLAYING ON MOBILE, THEN HIDE THE LOADING ANIMATION. \\
 
 	if(window.innerWidth < 800) {
-		$(window).on("message", (event) => {
-		  if(event.originalEvent.source === $("#gfyCatEmbedIframe").get(0).contentWindow) {
-		    if(event.originalEvent.data === 'playing') {
-		    	$('#loading').addClass('hidden');
-		    }
-		  }
+		
+		fetch('assets/js/Fantastec_Sprite_Sheet.json').then(function(response) { 
+			return response.json();
+		}).then(function(spriteJson) {
+			const IdleFrame = filterByValue(spriteJson.frames, 'idle');
+			masterObj.football.animationArray = [...IdleFrame, ...filterByValue(spriteJson.frames, 'football')];
+			masterObj.tennis.animationArray = [...IdleFrame, ...filterByValue(spriteJson.frames, 'tennis')];
+			masterObj.baseball.animationArray = [...IdleFrame, ...filterByValue(spriteJson.frames, 'baseball')];
+			masterObj.basketball.animationArray = [...IdleFrame, ...filterByValue(spriteJson.frames, 'basket')];
+			masterObj.fan.animationArray = [...IdleFrame, ...filterByValue(spriteJson.frames, 'fan')];
+			
+			animatorSetup();
+			imageControler(masterObj, 1);
+
+			setInterval(() => {
+				imageControler(masterObj, 1);
+			}, 5000);
 		});
 	}
+
+	const filterByValue = (array, string) => {
+    return array.filter(o => typeof o['filename'] === 'string' && o['filename'].toLowerCase().includes(string.toLowerCase()));
+	}
+
+	const animatorSetup = () => {
+			
+    var lastTime = 0;
+    var vendors = ['ms', 'moz', 'webkit', 'o'];
+    for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+        window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
+        window.cancelAnimationFrame = window[vendors[x]+'CancelAnimationFrame'] || window[vendors[x]+'CancelRequestAnimationFrame'];
+    }
+ 
+    if (!window.requestAnimationFrame)
+        window.requestAnimationFrame = function(callback, element) {
+            var currTime = new Date().getTime();
+            var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+            var id = window.setTimeout(function() { callback(currTime + timeToCall); }, 
+              timeToCall);
+            lastTime = currTime + timeToCall;
+            return id;
+        };
+ 
+    if (!window.cancelAnimationFrame)
+        window.cancelAnimationFrame = function(id) {
+            clearTimeout(id);
+        };
+	}
+
+	const animator = (animationObj) => {
+						
+		var dancingIcon,
+			spriteImage,
+			canvas;					
+
+		function gameLoop () {
+			$('#loading').addClass('hidden');
+		  animationObj.loopId = window.requestAnimationFrame(gameLoop);
+		  dancingIcon.update();
+		  dancingIcon.render();
+		}
+		
+		function sprite (options) {
+		
+			var that = {},
+				frameIndex = 0,
+				tickCount = 0,
+				loopCount = 0,
+				ticksPerFrame = options.ticksPerFrame || 0,
+				numberOfFrames = options.numberOfFrames || 1;
+			
+			that.context = options.context;
+			that.width = options.width;
+			that.height = options.height;
+			that.image = options.image;
+			that.loops = options.loops;
+			
+			that.update = function () {
+
+        tickCount += 1;
+
+        if (tickCount > ticksPerFrame) {
+
+					tickCount = 0;
+          // If the current frame index is in range
+          if (frameIndex < numberOfFrames - 1) {	
+          // Go to the next frame
+            frameIndex += 1;
+          } else {
+        		loopCount++
+            frameIndex = 0;
+
+            if(loopCount === that.loops) {
+            	window.cancelAnimationFrame(animationObj.loopId);
+            }
+          }
+	      }
+	    }
+			
+			that.render = function () {
+			
+			  // Clear the canvas
+			  that.context.clearRect(0, 0, that.width, that.height);
+			  
+			  that.context.drawImage(
+			    that.image,
+			    animationObj.animationArray[frameIndex].frame.x,
+			    animationObj.animationArray[frameIndex].frame.y,
+			    200,
+			    175,
+			    0,
+			    0,
+			    window.innerWidth / 3.846,
+			    window.innerWidth / 4.1)
+			};
+			
+			return that;
+		}
+		
+		// Get canvas
+		canvas = document.getElementById('canvas');
+		canvas.width = window.innerWidth / 3.846;
+		canvas.height = window.innerWidth / 2.2;
+		
+		// Create sprite sheet
+		spriteImage = new Image();	
+		
+		// Create sprite
+		dancingIcon = sprite({
+			context: canvas.getContext("2d"),
+			width: 4040,
+			height: 1770,
+			image: spriteImage,
+			numberOfFrames: animationObj.animationArray.length,
+			ticksPerFrame: 4,
+			loops: animationObj.loopAmount
+		});
+		
+		// Load sprite sheet
+		spriteImage.addEventListener("load", gameLoop);
+		spriteImage.src = 'assets/images/Fantastec_Sprite_Sheet.png';
+	} 
 
 // INITIALISE AND SETUP CURRENT PAGE. EXECUTE TRANSITIONS AND REMOVE TINT IF RELEVANT \\
 
@@ -59,36 +210,59 @@ $(document).ready(() => {
 	};
 
 // INITIATE initializeSection ON SECTIONS 3 AND 4. \\
-
+	initializeSection(1, 0);
 	initializeSection(3, 0);
 	initializeSection(4, 0);
 
 // SECTIONS 2 (ABOUT US SECTION) BACKGROUND IMAGE TRANSITION HANDLER. \\
 
-	let section2ImageIdx = 0;
+	const imageControler = (idxObj, sectionNumber) => {
+		let relevantAnimation;
 
-	const section2ImageControler = () => {
+		if(sectionNumber === 1) {
+			switch(idxObj.section1CurrentIdx) {
+				case 0:
+					relevantAnimation = masterObj.basketball;
+				break;
+				case 1:
+					relevantAnimation = masterObj.football;
+				break;
+				case 2:
+					relevantAnimation = masterObj.tennis;
+				break;
+				case 3:
+					relevantAnimation = masterObj.baseball;
+				break;
+				case 4:
+					relevantAnimation = masterObj.fan;
+				break;
+			}
+		}
 
-		$(`#section2`).find('.tint').removeClass('removeTint');
-		$(`#section2Background${section2ImageIdx}`).removeClass('scaleBackground');
-		initializeSection(2, section2ImageIdx);
+		$(`#section${sectionNumber}`).find('.tint').removeClass('removeTint');
+		$(`#section${sectionNumber}Background${idxObj[`section${sectionNumber}CurrentIdx`]}`).removeClass('scaleBackground');
+		initializeSection(sectionNumber, idxObj[`section${sectionNumber}CurrentIdx`]);
 		
 		setTimeout(() => {
-			$(`#section2`).find(`.backgroundWrapper`).addClass('scaleBackground');
-			$(`#section2`).find('.tint').addClass('removeTint');
+			if(sectionNumber === 1) {
+				animator(relevantAnimation);
+			}
+
+			$(`#section${sectionNumber}`).find(`.backgroundWrapper`).addClass('scaleBackground');
+			$(`#section${sectionNumber}`).find('.tint').addClass('removeTint');
 		}, 500);
 
-		if(section2ImageIdx === 2) {
-			section2ImageIdx = 0;
+		if(idxObj[`section${sectionNumber}CurrentIdx`] === $(`#section${sectionNumber}`).find(`.backgroundWrapper`).length - 1) {
+			idxObj[`section${sectionNumber}CurrentIdx`] = 0;
 		} else {
-			section2ImageIdx++;
+			idxObj[`section${sectionNumber}CurrentIdx`] += 1;
 		}
-	};
+	}
 
-	section2ImageControler();
+	imageControler(masterObj, 2);
 
 	setInterval(() => {
-		section2ImageControler();
+		imageControler(masterObj, 2);
 	}, 15000);
 
 // PAGINATION BUTTONS CLICK HANDLER FOR SECTIONS 3 AND 4. \\
