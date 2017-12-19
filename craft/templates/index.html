@@ -28,11 +28,11 @@
 		<div id="scrollerWrapper">
 	    <section data-index="1" id="section1" class="page">
 	    	<div class="tint"></div>
-	    	<video id="video" autoplay loop src="{{craft.entries.section('homeVideo').find()[0].videos[0].url}}"></video>
-	    	{# <div id="gfyCatEmbed" style='position:relative; padding-bottom:178%'>
-				  <iframe id="gfyCatEmbedIframe" src='https://gfycat.com/ifr/CourteousLinearIbex?referrer=http%3A%2F%2Fembed.ly%2Fcode%3Furl%3Dhttps%253A%252F%252Fgfycat.com%252FCourteousLinearIbex' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen>	
-	    		</iframe>
-	    	</div> #}
+	    	<video id="video" muted autoplay="true" loop="true">
+	    		<source src="{{ siteUrl }}assets/videos/landingVideo.webm" type="video/webm"/>
+	    		<source src="{{ siteUrl }}assets/videos/landingVideo.mp4" type="video/mp4"/>
+	    	</video>
+
 	    	<div id="section1Background0" class="mobile-image backgroundWrapper" style="background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('assets/images/homepageMob/basketball.jpg');
   			background-position: center;"></div>
 	    	<div id="section1Background1" class="mobile-image backgroundWrapper" style="background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('assets/images/homepageMob/football.jpg');

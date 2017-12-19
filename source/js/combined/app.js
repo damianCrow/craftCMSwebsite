@@ -29,13 +29,13 @@ $(document).ready(() => {
 		
 		fetch('assets/js/Fantastec_Sprite_Sheet.json').then(function(response) { 
 			return response.json();
-		}).then(function(spriteJson) {
-			const IdleFrame = filterByValue(spriteJson.frames, 'idle');
-			masterObj.football.animationArray = [...IdleFrame, ...filterByValue(spriteJson.frames, 'football')];
-			masterObj.tennis.animationArray = [...IdleFrame, ...filterByValue(spriteJson.frames, 'tennis')];
-			masterObj.baseball.animationArray = [...IdleFrame, ...filterByValue(spriteJson.frames, 'baseball')];
-			masterObj.basketball.animationArray = [...IdleFrame, ...filterByValue(spriteJson.frames, 'basket')];
-			masterObj.fan.animationArray = [...IdleFrame, ...filterByValue(spriteJson.frames, 'fan')];
+		}).then(function(spriteObj) {
+			const IdleFrame = filterByValue(spriteObj.frames, 'idle');
+			masterObj.football.animationArray = [...IdleFrame, ...filterByValue(spriteObj.frames, 'football')];
+			masterObj.tennis.animationArray = [...IdleFrame, ...filterByValue(spriteObj.frames, 'tennis')];
+			masterObj.baseball.animationArray = [...IdleFrame, ...filterByValue(spriteObj.frames, 'baseball')];
+			masterObj.basketball.animationArray = [...IdleFrame, ...filterByValue(spriteObj.frames, 'basket')];
+			masterObj.fan.animationArray = [...IdleFrame, ...filterByValue(spriteObj.frames, 'fan')];
 			
 			animatorSetup();
 			imageControler(masterObj, 1);
