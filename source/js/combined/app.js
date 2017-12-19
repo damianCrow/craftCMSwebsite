@@ -2,18 +2,24 @@ const time = 750;
 let section3Idx = 0;
 let section4Idx = 0;
 
-// let FootballFrames, TennisFrames, BaseballFrames, BasketballFrames, FanFrames, IdleFrame;
-let tennisAnimation, footballAnimation, basketballAnimation, baseballAnimation, fanAnimation;
-
 const masterObj = {
 	section2CurrentIdx: 0, 
 	section1CurrentIdx: 0,
-	basketball: {loopAmount: 1, loopId: basketballAnimation},
-	football: {loopAmount: 1, loopId: footballAnimation},
-	tennis: {loopAmount: 1, loopId: tennisAnimation},
-	baseball: {loopAmount: 1, loopId: baseballAnimation},
-	fan: {loopAmount: 1, loopId: fanAnimation}
+	section3: {
+		automate: '',
+		isAutomated: false
+	},
+	section4: {
+		automate: '',
+		isAutomated: false
+	},
+	basketball: {loopAmount: 1},
+	football: {loopAmount: 1},
+	tennis: {loopAmount: 1},
+	baseball: {loopAmount: 1},
+	fan: {loopAmount: 1}
 };
+
 const homepageMobImages = [
 	'assets/images/homepageMob/basketball.jpg',
 	'assets/images/homepageMob/football.jpg',
@@ -23,10 +29,8 @@ const homepageMobImages = [
 ]
 
 $(document).ready(() => {
-// WAIT FOR gfyCatEmbed VIDEO TO START PLAYING ON MOBILE, THEN HIDE THE LOADING ANIMATION. \\
-
 	if(window.innerWidth < 800) {
-		
+// IF THE WINDOW IS SMALLER THAT 800PX FETCH THE JSON FOR THE ICON ANIMATION AND ATACH THE ANIMATIONS SEPERATELY TO masterObj \\
 		fetch('assets/js/Fantastec_Sprite_Sheet.json').then(function(response) { 
 			return response.json();
 		}).then(function(spriteObj) {
@@ -36,53 +40,54 @@ $(document).ready(() => {
 			masterObj.baseball.animationArray = [...IdleFrame, ...filterByValue(spriteObj.frames, 'baseball')];
 			masterObj.basketball.animationArray = [...IdleFrame, ...filterByValue(spriteObj.frames, 'basket')];
 			masterObj.fan.animationArray = [...IdleFrame, ...filterByValue(spriteObj.frames, 'fan')];
-			
+// CALL ANIMATOR SETUP FUNCTION AND START THE IMAGE SLIDESHOW FOR SECTION 1 (HOMEPAGE) \\			
 			animatorSetup();
 			imageControler(masterObj, 1);
-
+// CALL THE imageControler FUNCTION EVERY 5 SECONDS TO CHANGE THE IMAGE FOR SECTION 1 (HOMEPAGE) \\
 			setInterval(() => {
 				imageControler(masterObj, 1);
 			}, 5000);
 		});
 	}
-
+// FUNCTION TO SEPERATE THE ANIMATION FRAMES BY NAME \\
 	const filterByValue = (array, string) => {
     return array.filter(o => typeof o['filename'] === 'string' && o['filename'].toLowerCase().includes(string.toLowerCase()));
 	}
-
+// GENERIC SETUP FUNCTION FOR ADDING VENDOR PREFIXES TO requestAnimationFrame \\
 	const animatorSetup = () => {
 			
     var lastTime = 0;
     var vendors = ['ms', 'moz', 'webkit', 'o'];
     for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
-        window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
-        window.cancelAnimationFrame = window[vendors[x]+'CancelAnimationFrame'] || window[vendors[x]+'CancelRequestAnimationFrame'];
+      window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
+      window.cancelAnimationFrame = window[vendors[x]+'CancelAnimationFrame'] || window[vendors[x]+'CancelRequestAnimationFrame'];
     }
  
     if (!window.requestAnimationFrame)
-        window.requestAnimationFrame = function(callback, element) {
-            var currTime = new Date().getTime();
-            var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-            var id = window.setTimeout(function() { callback(currTime + timeToCall); }, 
-              timeToCall);
-            lastTime = currTime + timeToCall;
-            return id;
-        };
+      window.requestAnimationFrame = function(callback, element) {
+        var currTime = new Date().getTime();
+        var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+        var id = window.setTimeout(function() { callback(currTime + timeToCall); }, 
+          timeToCall);
+        lastTime = currTime + timeToCall;
+        return id;
+      };
  
     if (!window.cancelAnimationFrame)
-        window.cancelAnimationFrame = function(id) {
-            clearTimeout(id);
-        };
+    window.cancelAnimationFrame = function(id) {
+      clearTimeout(id);
+    };
 	}
+
 
 	const animator = (animationObj) => {
 						
 		var dancingIcon,
 			spriteImage,
 			canvas;					
-
+// FUNCTION TO PASS TO requestAnimationFrame \\
 		function gameLoop () {
-			$('#loading').addClass('hidden');
+		  $('#loading').addClass('hidden');
 		  animationObj.loopId = window.requestAnimationFrame(gameLoop);
 		  dancingIcon.update();
 		  dancingIcon.render();
@@ -209,12 +214,12 @@ $(document).ready(() => {
 		});
 	};
 
-// INITIATE initializeSection ON SECTIONS 3 AND 4. \\
+// CALL initializeSection ON SECTIONS 1, 3 AND 4. \\
 	initializeSection(1, 0);
 	initializeSection(3, 0);
 	initializeSection(4, 0);
 
-// SECTIONS 2 (ABOUT US SECTION) BACKGROUND IMAGE TRANSITION HANDLER. \\
+// BACKGROUND IMAGE TRANSITION HANDLER. \\
 
 	const imageControler = (idxObj, sectionNumber) => {
 		let relevantAnimation;
@@ -258,9 +263,10 @@ $(document).ready(() => {
 			idxObj[`section${sectionNumber}CurrentIdx`] += 1;
 		}
 	}
-
+// START SLIDESHOW ON SECTION 2 \\
 	imageControler(masterObj, 2);
 
+// CHANGE SECTION 2 BACKGROUND IMAGE EVERY 15 SECONDS \\
 	setInterval(() => {
 		imageControler(masterObj, 2);
 	}, 15000);
@@ -305,6 +311,14 @@ $(document).ready(() => {
 // CLICK LISTENER FOR PAGINATION BUTTONS ON SECTIONS 3 AND 4. \\
 
 	$('.section3PaginatorButton, .section4PaginatorButton').click((e) => {
+		
+		if(masterObj[$(e.currentTarget).closest('section').attr('id')].isAutomated) {
+// IF THERE IS A RINNING INTERVAL ON THE RELEVANT SECTION CLEAR IT \\
+			intervalManager(false, $(e.currentTarget).closest('section').attr('id'));
+// SET A NEW INTERVAL OF 7 SECONDS ON THE SECTION \\
+			intervalManager(true, $(e.currentTarget).closest('section').attr('id'), 7000);
+		}
+// CALL THE CLICK HANDLER FUNCTION AND PASS IT THE EVENT \\
 		handlePaninationButtonClick(e);
 	});
 
@@ -362,13 +376,14 @@ $(document).ready(() => {
 
 	$('#downArrow').click(() => {
 		if($(window).height() * ($('.page').length - 1) === - $('#scrollerWrapper').offset().top) {
+// MOVE TO TOP OF PAGE IF CURRENTLY AT BOTTOM \\
 	  	$('#scrollerWrapper').moveTo(1);
 		} else {
 			$('#scrollerWrapper').moveDown();
 		}
 	});
 
-// HIDE THE LOADING ANIMATIOPN WHEN VIDEO IS READY TO PLAY ON DEXKTOP. \\
+// HIDE THE LOADING ANIMATIOPN WHEN VIDEO IS READY TO PLAY ON DESXKTOP. \\
 
 	const hideLoadingAnimation = () => {
 		if(window.innerWidth > 800 && !$('#loading').hasClass('hidden')) {
@@ -379,29 +394,15 @@ $(document).ready(() => {
 		}
 	}
 
-	let section3Automated, automateSection3, section4Automated, automateSection4;
 // MANAGEMENT FUNCTION FOR SETTING AND CLEARING THE SLIDE AUTOMATION INTERVALS. \\
 
 	const intervalManager = (flag, sectionId, time) => {
    	if(flag) {
-   		if(sectionId === 'section3') {
-   			automateSection3 = setInterval(() => {
-	     		swipeController(sectionId, 'l');	
-	     	}, time);
-   		}
-   		if(sectionId === 'section4') {
-   			automateSection4 = setInterval(() => {
-	     		swipeController(sectionId, 'l');	
-	     	}, time);
-   		}
-     	 
-   	} else {
-   		if(sectionId === 'section3') {
-    		clearInterval(automateSection3);
-    	}
-    	if(sectionId === 'section4') {
-    		clearInterval(automateSection4);
-    	}
+ 			masterObj[sectionId].automate = setInterval(() => {
+     		swipeController(sectionId, 'l');	
+     	}, time); 
+   	} else {		
+    	clearInterval(masterObj[sectionId].automate);
    	}
 	};
 
@@ -441,26 +442,26 @@ $(document).ready(() => {
 			}
 
 			if($('#section3.active').length) { // AUTOMATE THE SLIDES ON SECTIOPN 3 EVERY 7 SECONDS IF THE SECTION IS ACTIVE. \\
-				if(section3Automated !== true) {
-					section3Automated = true;
+				if(masterObj.section3.isAutomated !== true) {
+					masterObj.section3.isAutomated = true;
 					intervalManager(true, 'section3', 7000);
 				}
 			} else { // STOP AUTOMATED SLIDES ON SECTIOPN 3 IF THE SECTION IS NOT ACTIVE. \\
-				if(section3Automated === true) {
+				if(masterObj.section3.isAutomated === true) {
 					intervalManager(false, 'section3');
-					section3Automated = false;
+					masterObj.section3.isAutomated = false;
 				}
 			}
 
 			if($('#section4.active').length) { // AUTOMATE THE SLIDES ON SECTIOPN 4 EVERY 7 SECONDS IF THE SECTION IS ACTIVE. \\
-				if(section4Automated !== true) {
-					section4Automated = true;
+				if(masterObj.section4.isAutomated !== true) {
+					masterObj.section4.isAutomated = true;
 					intervalManager(true, 'section4', 7000);
 				}
 			} else { // STOP AUTOMATED SLIDES ON SECTIOPN 4 IF THE SECTION IS NOT ACTIVE. \\
-				if(section4Automated === true) {
+				if(masterObj.section4.isAutomated === true) {
 					intervalManager(false, 'section4');
-					section4Automated = false;
+					masterObj.section4.isAutomated = false;
 				}
 			}
 		}, 500);

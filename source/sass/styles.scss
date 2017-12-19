@@ -434,7 +434,7 @@ $stops4: (
     }
   }
   @include breakpoint(mobile) {
-    height: 260px;
+    height: 275px;
     width: 200px;
   }
   
@@ -464,6 +464,7 @@ $stops4: (
       color: $green;
       text-transform: uppercase;
       margin-left: 20px;
+      font-size: 0.65rem;
     }
     &:last-child {
       z-index: 10;
