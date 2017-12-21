@@ -700,7 +700,7 @@ html, body, #scrollerWrapper {
     p {
       transform: translateZ(0);
       @include breakpoint(mobile) {
-        font-size: 0.8rem;
+        font-size: 0.65rem;
         width: 100%;
       }
       @include breakpoint(tablet) {
@@ -717,7 +717,7 @@ html, body, #scrollerWrapper {
       &.largeText {
         transform: translateZ(0);
         @include breakpoint(mobile) {
-          font-size: 1rem;
+          font-size: 0.8rem;
         }
         @include breakpoint(tablet) {
           font-size: 1.15rem;
@@ -728,8 +728,11 @@ html, body, #scrollerWrapper {
       transform: translateZ(0);
       p {
         @include breakpoint(mobile) {
-          font-size: 1rem;
+          font-size: 0.65rem;
           width: 100%;
+        }
+        @include breakpoint(tablet) {
+          font-size: 1rem;
         }
       }
       @include breakpoint(mobile) {
@@ -784,6 +787,9 @@ html, body, #scrollerWrapper {
 #section4 {
   p {
     @include breakpoint(mobile) {
+      font-size: 0.65rem;
+    }
+    @include breakpoint(tablet) {
       font-size: 1rem;
     }
     @include breakpoint(desktop) {

@@ -611,7 +611,7 @@ html, body, #scrollerWrapper {
       color: #ffffff; }
       @media (min-width: 300px) {
         .page .textWrapper p {
-          font-size: 0.8rem;
+          font-size: 0.65rem;
           width: 100%; } }
       @media (min-width: 575px) {
         .page .textWrapper p {
@@ -624,7 +624,7 @@ html, body, #scrollerWrapper {
         transform: translateZ(0); }
         @media (min-width: 300px) {
           .page .textWrapper p.largeText {
-            font-size: 1rem; } }
+            font-size: 0.8rem; } }
         @media (min-width: 575px) {
           .page .textWrapper p.largeText {
             font-size: 1.15rem; } }
@@ -636,8 +636,11 @@ html, body, #scrollerWrapper {
       margin-left: 0; }
       @media (min-width: 300px) {
         .page .textWrapper.center p {
-          font-size: 1rem;
+          font-size: 0.65rem;
           width: 100%; } }
+      @media (min-width: 575px) {
+        .page .textWrapper.center p {
+          font-size: 1rem; } }
       @media (min-width: 300px) {
         .page .textWrapper.center {
           text-align: left;
@@ -672,6 +675,10 @@ html, body, #scrollerWrapper {
   opacity: 1; }
 
 @media (min-width: 300px) {
+  #section4 p {
+    font-size: 0.65rem; } }
+
+@media (min-width: 575px) {
   #section4 p {
     font-size: 1rem; } }
 

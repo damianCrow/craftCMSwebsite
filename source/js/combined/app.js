@@ -412,17 +412,14 @@ $(document).ready(() => {
 
 	if(!$(location).attr('href').includes('index.php')) {
 		setInterval(() => {
-			if($('#scrollerWrapper').offset().top >= 0) {
+			if($('#scrollerWrapper').offset().top >= - (window.innerHeight / 1.9)) {
 				$('#headerShape, #footer').addClass('moveOffScreen');
 				$('#video').get(0).play();
 				$('.arrow').addClass('pulsate');
 			} else {
-				var timeout = setTimeout(() => {
-					$('#headerShape, #footer').removeClass('moveOffScreen');
-					$('#video').get(0).pause();
-					$('.arrow').removeClass('pulsate');
-					clearTimeout(timeout);
-				}, time);
+				$('#headerShape, #footer').removeClass('moveOffScreen');
+				$('#video').get(0).pause();
+				$('.arrow').removeClass('pulsate');
 			}
 
 // ROTATE THE ARROW IN THE FOOTER WHEN AT THE BOTTOM OF THE PAGE \\
