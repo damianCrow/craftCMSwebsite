@@ -318,8 +318,10 @@ $(document).ready(() => {
 // SET A NEW INTERVAL OF 7 SECONDS ON THE SECTION \\
 			intervalManager(true, $(e.currentTarget).closest('section').attr('id'), 7000);
 		}
-// CALL THE CLICK HANDLER FUNCTION AND PASS IT THE EVENT \\
-		handlePaninationButtonClick(e);
+// CALL THE CLICK HANDLER FUNCTION AND PASS IT THE EVENT IF TARGET IS NOT ALREADY ACTIVE \\
+		if(!$(e.currentTarget).hasClass('active')) {
+			handlePaninationButtonClick(e);
+		}
 	});
 
 // INITIALIZE ONEPAGESCROLL IF NOT IN CMS PREVIEW. \\
