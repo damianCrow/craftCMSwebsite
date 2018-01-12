@@ -20,16 +20,13 @@ const masterObj = {
 	fan: {loopAmount: 1}
 };
 
-const homepageMobImages = [
-	'assets/images/homepageMob/basketball.jpg',
-	'assets/images/homepageMob/football.jpg',
-	'assets/images/homepageMob/tennis.jpg', 
-	'assets/images/homepageMob/baseball.jpg', 
-	'assets/images/homepageMob/fan.jpg' 
-]
-
 $(document).ready(() => {
+// FIXES ISSUE WITH HIEGHT ON IPHONE X. onepage_scroll PLUGIN DOES NOT WORK WITH 'height: 100%;' \\
+	$('#scrollerWrapper').css({'height': `${$('body').height()}px`});
+
 	if(window.innerWidth < 800) {
+// DELETE VIDEO ON MOBILE \\
+		$('#video').remove();
 // IF THE WINDOW IS SMALLER THAT 800PX FETCH THE JSON FOR THE ICON ANIMATION AND ATACH THE ANIMATIONS SEPERATELY TO masterObj \\
 		fetch('assets/js/Fantastec_Sprite_Sheet.json').then(function(response) { 
 			return response.json();
@@ -78,7 +75,6 @@ $(document).ready(() => {
       clearTimeout(id);
     };
 	}
-
 
 	const animator = (animationObj) => {
 						
@@ -192,8 +188,11 @@ $(document).ready(() => {
 			$('.tint').removeClass('removeTint');
 			$('.subSection').removeClass('scaleBackground');
 			$(`.backgroundWrapper:not(#section${index}Background)`).removeClass('scaleBackground');
-			$(`.section.active`).find(`.backgroundWrapper`).addClass('scaleBackground');
 			$(`section.active`).find('.tint').addClass('removeTint');
+
+			$(`.section.active`).find(`.backgroundWrapper`).addClass('scaleBackground').on('animationend webkitAnimationEnd', (es) => {
+			  $(`section.active`).find('.tint').removeClass('removeTint');
+			});
 
 			if($(`.section${index}PaginatorButton`).length && $(`.section${index}PaginatorButton.active`).length < 1) {
 				$(`.section${index}PaginatorButton`).get(0).click();
@@ -316,7 +315,7 @@ $(document).ready(() => {
 // IF THERE IS A RINNING INTERVAL ON THE RELEVANT SECTION CLEAR IT \\
 			intervalManager(false, $(e.currentTarget).closest('section').attr('id'));
 // SET A NEW INTERVAL OF 7 SECONDS ON THE SECTION \\
-			intervalManager(true, $(e.currentTarget).closest('section').attr('id'), 7000);
+			intervalManager(true, $(e.currentTarget).closest('section').attr('id'), 10000);
 		}
 // CALL THE CLICK HANDLER FUNCTION AND PASS IT THE EVENT IF TARGET IS NOT ALREADY ACTIVE \\
 		if(!$(e.currentTarget).hasClass('active')) {
@@ -364,6 +363,9 @@ $(document).ready(() => {
 			currentSection.removeClass('closed').addClass('open');
 			currentSection.on('transitionend webkitTransitionEnd oTransitionEnd', (es) => {
 	    	$('.subSection.open').find('.button, p').addClass('fadeIn');
+	    	$('.subSection.open').find('p.fadeIn').on('transitionend webkitTransitionEnd oTransitionEnd', (es) => {
+				  $('.subSection.open').find('.tint').addClass('addTint').removeClass('removeTint');
+				});
 			});
 			currentSection.siblings('.subSection').map((idx, section) => {
 				$(section).removeClass('open').addClass('closed');
@@ -390,7 +392,7 @@ $(document).ready(() => {
 	const hideLoadingAnimation = () => {
 		if(window.innerWidth > 800 && !$('#loading').hasClass('hidden')) {
 
-			if($('#video').get(0).readyState === 4) {
+			if($('#video').length && $('#video').get(0).readyState === 4) {
 				$('#loading').addClass('hidden');
 			}
 		}
@@ -414,12 +416,19 @@ $(document).ready(() => {
 		setInterval(() => {
 			if($('#scrollerWrapper').offset().top >= - (window.innerHeight / 1.9)) {
 				$('#headerShape, #footer').addClass('moveOffScreen');
-				$('#video').get(0).play();
+
+				if($('#video').length && $('#video').css('display') !== 'none') {
+					$('#video').get(0).play();
+				}
+
 				$('.arrow').addClass('pulsate');
 			} else {
 				$('#headerShape, #footer').removeClass('moveOffScreen');
-				$('#video').get(0).pause();
 				$('.arrow').removeClass('pulsate');
+
+				if($('#video').length) {
+					$('#video').get(0).pause();
+				}
 			}
 
 // ROTATE THE ARROW IN THE FOOTER WHEN AT THE BOTTOM OF THE PAGE \\
@@ -443,7 +452,7 @@ $(document).ready(() => {
 			if($('#section3.active').length) { // AUTOMATE THE SLIDES ON SECTIOPN 3 EVERY 7 SECONDS IF THE SECTION IS ACTIVE. \\
 				if(masterObj.section3.isAutomated !== true) {
 					masterObj.section3.isAutomated = true;
-					intervalManager(true, 'section3', 7000);
+					intervalManager(true, 'section3', 10000);
 				}
 			} else { // STOP AUTOMATED SLIDES ON SECTIOPN 3 IF THE SECTION IS NOT ACTIVE. \\
 				if(masterObj.section3.isAutomated === true) {
@@ -455,7 +464,7 @@ $(document).ready(() => {
 			if($('#section4.active').length) { // AUTOMATE THE SLIDES ON SECTIOPN 4 EVERY 7 SECONDS IF THE SECTION IS ACTIVE. \\
 				if(masterObj.section4.isAutomated !== true) {
 					masterObj.section4.isAutomated = true;
-					intervalManager(true, 'section4', 7000);
+					intervalManager(true, 'section4', 10000);
 				}
 			} else { // STOP AUTOMATED SLIDES ON SECTIOPN 4 IF THE SECTION IS NOT ACTIVE. \\
 				if(masterObj.section4.isAutomated === true) {

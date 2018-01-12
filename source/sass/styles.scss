@@ -434,7 +434,7 @@ $stops4: (
     }
   }
   @include breakpoint(mobile) {
-    height: 275px;
+    height: 260px;
     width: 200px;
   }
   
@@ -447,7 +447,7 @@ $stops4: (
 
   p, h3, a {
     margin: 8px 0 8px 20px;
-    font-size: 0.8rem;
+    font-size: 0.65rem;
     color: $white;
   }
 
@@ -515,7 +515,7 @@ html, body, #scrollerWrapper {
   font-family: 'Montserrat', sans-serif;
   margin: 0;
   padding: 0;
-  height: 100vh;
+  height: 100%;
   width: 100%;
   background-color: $grey;
   max-width: 2600px;
@@ -603,9 +603,8 @@ html, body, #scrollerWrapper {
   background-image: url('../images/Fantastec_Logo_Text.svg');
   position: relative;
   width: 100%;
-  // height: 200px;
-  background-size: 200%;
-  background-position: center;
+  background-size: 117%;
+  background-position: center 26%;
   top: calc(50% - 100px);
 
   #canvas {
@@ -629,7 +628,7 @@ html, body, #scrollerWrapper {
     @include breakpoint(mobile) {
       left: 29px;
       font-size: 1rem;
-      top: 15%;
+      // top: 15%;
     }
     @include breakpoint(tablet) {
       left: 45px;
@@ -663,6 +662,8 @@ html, body, #scrollerWrapper {
     transform: translateZ(0);
     position: absolute;
     opacity: 0;
+    z-index: 3;
+
     @include breakpoint(mobile) {
       width: calc(100% - 58px);
       margin-left: 0px;
@@ -711,7 +712,7 @@ html, body, #scrollerWrapper {
         width: 100%;
       }
 
-      margin-top: 2rem; 
+      margin-top: 1.5rem; 
       font-weight: 200;
       color: $white;
       &.largeText {
@@ -938,10 +939,12 @@ html, body, #scrollerWrapper {
           top: calc(50% - 110px);
         }
         opacity: 0;
+        pointer-events: none;
         position: relative;
         transition: opacity 0.5s ease-out;
         &.fadeIn {
           opacity: 1;
+          pointer-events: all;
         }
       }
       p {
@@ -1036,36 +1039,38 @@ html, body, #scrollerWrapper {
 
   p {
     @include breakpoint(mobile) {
-      margin: 0 0 0 29px;
-      width: calc(50% - 58px);
-      font-size: 0.5rem;
-      font-weight: 100;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical; 
-      max-height: 30px; 
+      // margin: 0 0 0 29px;
+      // width: calc(50% - 58px);
+      // font-size: 0.5rem;
+      // font-weight: 100;
+      // -webkit-line-clamp: 3;
+      // -webkit-box-orient: vertical; 
+      // max-height: 30px; 
+      display: none;
     }
     @include breakpoint(tablet) {
+      display: block;
       font-size: 0.65rem;
       width: calc(50% - 90px);
-      margin: 0 0 0 45px;
-      max-height: 50px; 
+      margin: 0 0 0 45px; 
+      max-height: 1.5rem;
+      line-height: 0.7rem;
     }
     @include breakpoint(desktop) {
       margin: 0 0 0 60px;
       width: calc(50% - 120px);
       font-size: 0.8rem;
+      max-height: 1.8rem;
+      line-height: 0.9rem;
     }
     color: $white;
     font-weight: 100;
     position: relative;
     top: 50%;
     transform: translateY(-50%);
-    max-height: 100%;
-    overflow: hidden;
     text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+    word-wrap: break-word;
+    overflow: hidden;
 
     &.tweet {
       a {
